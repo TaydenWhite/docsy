@@ -137,12 +137,12 @@ params:
 
   versions:
     - version: master
-      githubbranch: 'main'
+     
       url: 'https://taydenwhite.github.io/docsy'
     - version: v0
-      githubbranch: 'v0-branch'
+      githubbranch: 'main'
       url: 'https://taydenwhite.github.io/docsy/v0'
-
+      githubbranch: 'v0-branch'
 
   # Google Custom Search Engine ID. Remove or comment out to disable search.
   gcs_engine_id: d72aa9b2712488cc3
