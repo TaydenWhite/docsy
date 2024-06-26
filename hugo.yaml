@@ -141,7 +141,7 @@ params:
       url: 'https://taydenwhite.github.io/docsy'
     - version: v0
       githubbranch: 'v0-branch'
-      url: 'https://v0.taydenwhite.github.io/docsy'
+      url: 'https://taydenwhite.github.io.v0/docsy'
 
 
   # Google Custom Search Engine ID. Remove or comment out to disable search.
