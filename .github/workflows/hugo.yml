@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - v0-branch
   workflow_dispatch:
 
 permissions:
@@ -23,40 +22,27 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        branch: [main, v0-branch]
-        base_path:
-          - "/docsy/"
-          - "/v0/docsy/"
     env:
       HUGO_VERSION: 0.127.0
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.branch }}
-          submodules: recursive
-          fetch-depth: 0
-
       - name: Install Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb                    
       - name: Install Dart Sass
         run: sudo snap install dart-sass
-
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-
       - name: Install Docsy
         run: npm install --save-dev docsy
-
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
@@ -66,12 +52,10 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://taydenwhite.github.io${{ matrix.base_path }}"
-
+            --baseURL "${{ steps.pages.outputs.base_url }}/"                    
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: public-${{ matrix.branch }}
           path: ./public
 
   deploy:
@@ -84,5 +68,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: public-${{ matrix.branch }}
