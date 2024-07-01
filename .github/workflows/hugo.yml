@@ -5,7 +5,7 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches:
-      - v0-branch
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -62,7 +62,7 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://taydenwhite.github.io/docsy/v0/"                    
+            --baseURL "${{ steps.pages.outputs.base_url }}/"                    
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
