@@ -52,7 +52,7 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://taydenwhite.github.io/v0/docsy/"                    
+            --baseURL "https://taydenwhite.github.io/docsy/v0"                    
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
